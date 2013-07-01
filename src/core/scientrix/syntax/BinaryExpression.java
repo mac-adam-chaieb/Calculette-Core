@@ -1,4 +1,6 @@
-package core.syntax;
+package core.scientrix.syntax;
+
+import core.scientrix.math.Real;
 
 /*
  * @author Mohamed Adam Chaieb
@@ -19,13 +21,13 @@ public class BinaryExpression implements Expression
 	}
 	
 	@Override
-	public Number evaluate() {
+	public Operand evaluate() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Expression substitute(Variable x, Number number) {
+	public Expression substitute(Variable x, Real number) {
 		// TODO Auto-generated method stub
 		return null;
 	}

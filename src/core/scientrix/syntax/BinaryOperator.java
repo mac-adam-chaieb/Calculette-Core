@@ -1,9 +1,10 @@
-package core.syntax;
+package core.scientrix.syntax;
 /*
  * @author Mohamed Adam Chaieb
  * 
  * This enumerable class represents the valid binary operators in mathematical expressions supported by scientrix.
  * */
+
 public enum BinaryOperator 
 {
 	//ordered by increasing priority

@@ -1,7 +1,8 @@
-package core.math;
+package core.scientrix.math;
 
 import java.math.BigDecimal;
-import core.syntax.*;
+
+import core.scientrix.syntax.*;
 
 /*
  * @author Mohamed Adam Chaieb
@@ -9,7 +10,7 @@ import core.syntax.*;
  * This class represents the real number expression r
  * */
 
-public class Real implements Expression, core.syntax.Number, Operand
+public class Real implements Expression, Operand, Comparable<Real>
 {
 	public final BigDecimal real;
 	public static final Real TWO = new Real(new BigDecimal("2"));
@@ -28,12 +29,12 @@ public class Real implements Expression, core.syntax.Number, Operand
 		this.real = real;
 	}
 
-	public core.syntax.Number evaluate()
+	public Operand evaluate()
 	{
 		return this;
 	}
 
-	public Expression substitute(Variable x, core.syntax.Number n)
+	public Expression substitute(Variable x, Real r)
 	{
 		return this;
 	}
@@ -41,11 +42,6 @@ public class Real implements Expression, core.syntax.Number, Operand
 	public String toString()
 	{
 		return this.real.toString();
-	}
-
-	public Int toInt()
-	{
-		return new Int(this.real.toBigInteger());
 	}
 
 	public boolean equals(Real b)
@@ -98,7 +94,13 @@ public class Real implements Expression, core.syntax.Number, Operand
 	{
 		return new Real(this.real.min(b.real));
 	}
-
+	
+	//need to implement this
+	public Real pow(int i)
+	{
+		return Real.ZERO;
+	}
+	
 	public static boolean isReal(String input)
 	{
 		try
@@ -117,5 +119,10 @@ public class Real implements Expression, core.syntax.Number, Operand
 	public boolean lessThan(Real b)
 	{
 		return (this.real.compareTo(b.real) == -1);
+	}
+	
+	public int compareTo(Real other)
+	{
+		return this.real.compareTo(other.real);
 	}
 }

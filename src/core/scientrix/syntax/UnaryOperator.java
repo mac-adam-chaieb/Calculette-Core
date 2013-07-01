@@ -1,4 +1,4 @@
-package core.syntax;
+package core.scientrix.syntax;
 /*
  * @author Mohamed Adam Chaieb
  * 
@@ -7,7 +7,7 @@ package core.syntax;
 public enum UnaryOperator 
 {
 	//ordered by increasing priority
-	OG("log"), LN("ln"), COSINE("cos"), SINE("sin"), TANGENT("tan"), FACTORIAL("!"), SQROOT("sqrt"), NEGATE("-"), ARCCOS("arccos"), ARCSIN("arcsin"), ARCTAN("arctan"), ABSOLUTE("abs");
+	LOG("log"), LN("ln"), COSINE("cos"), SINE("sin"), TANGENT("tan"), FACTORIAL("!"), SQROOT("sqrt"), NEGATE("-"), ARCCOS("arccos"), ARCSIN("arcsin"), ARCTAN("arctan"), ABSOLUTE("abs");
 	public String operator;
 	
 	private UnaryOperator(String operator)
