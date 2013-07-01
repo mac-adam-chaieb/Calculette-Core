@@ -1,8 +1,8 @@
 package core.scientrix.math;
 
-import core.scientrix.syntax.Operand;
+import core.scientrix.syntax.Value;
 
-public class Matrix implements Operand
+public class Matrix implements Value
 {
   private int r;//rows
   private int c;//columns
@@ -22,7 +22,7 @@ public class Matrix implements Operand
     this.r = matrix.length;
   }
   
-  public Operand evaluate()
+  public Value evaluate()
   {
 	  return this;
   }
@@ -116,7 +116,7 @@ public class Matrix implements Operand
       {
         Real output = Real.ZERO;
         for(int i =0;i<this.c;i++)
-          output = output.add((new Real("-1").pow(i)).multiply(this.matrix[0][i]).multiply(this.subMatrix(1,i+1).determinant()));
+          output = output.add((new Real("-1").pow(new Real(i))).multiply(this.matrix[0][i]).multiply(this.subMatrix(1,i+1).determinant()));
         return output;
       }
     }
@@ -134,7 +134,7 @@ public class Matrix implements Operand
   
   public Real cofactor(int i,int j)//computes the i,jth cofactor
   {
-    return (new Real("-1").pow(i+j)).multiply(this.subMatrix(i,j).determinant());
+    return (new Real("-1").pow(new Real(i+j))).multiply(this.subMatrix(i,j).determinant());
   }
   
   public Matrix adjoint()//computes the adjoint of this matrix, which is equal to the transpose of the matrix of cofactors

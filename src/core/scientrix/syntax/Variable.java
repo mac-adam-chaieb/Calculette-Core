@@ -3,9 +3,10 @@ package core.scientrix.syntax;
  * @author Mohamed Adam Chaieb
  * 
  * This class represents variables in scientrix expressions.*/
-public class Variable implements Operand
+public class Variable
 {
 	public String name;
+	public Value value;
 	
 	public Variable(String name)
 	{

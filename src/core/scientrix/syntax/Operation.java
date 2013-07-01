@@ -8,11 +8,11 @@ import core.scientrix.math.Real;
  * This is the interface representing mathematical expressions in the Scientrix calculator.
  * */
 
-public interface Expression 
+public interface Operation 
 {
 	//evaluates the Expression
-	public Operand evaluate();
+	public Value evaluate();
 	
 	//substitutes any occurrence of x with number
-	public Expression substitute(Variable x, Real number);
+	public Operation substitute(Variable x, Real number);
 }

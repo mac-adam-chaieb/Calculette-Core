@@ -1,6 +1,7 @@
 package core.scientrix.math;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import core.scientrix.syntax.*;
 
@@ -10,7 +11,7 @@ import core.scientrix.syntax.*;
  * This class represents the real number expression r
  * */
 
-public class Real implements Expression, Operand, Comparable<Real>
+public class Real implements Operation, Value, Comparable<Real>
 {
 	public final BigDecimal real;
 	public static final Real TWO = new Real(new BigDecimal("2"));
@@ -28,13 +29,18 @@ public class Real implements Expression, Operand, Comparable<Real>
 	{
 		this.real = real;
 	}
+	
+	public Real(int real)
+	{
+		this.real = new BigDecimal(real);
+	}
 
-	public Operand evaluate()
+	public Value evaluate()
 	{
 		return this;
 	}
 
-	public Expression substitute(Variable x, Real r)
+	public Operation substitute(Variable x, Real r)
 	{
 		return this;
 	}
@@ -95,10 +101,25 @@ public class Real implements Expression, Operand, Comparable<Real>
 		return new Real(this.real.min(b.real));
 	}
 	
-	//need to implement this
-	public Real pow(int i)
+	public Real pow(Real x)
 	{
-		return Real.ZERO;
+		return intPow(x.real.toBigInteger()).multiply(decPow(x.real.subtract(new BigDecimal(x.real.toBigInteger()))));		
+	}
+	
+	//helper methods for pow function
+	private Real intPow(BigInteger intPart)
+	{
+		if(intPart.equals(BigInteger.ZERO))
+			return Real.ONE;
+		else if(intPart.mod(new BigInteger("2")).equals(BigInteger.ZERO))
+			return intPow(intPart.divide(new BigInteger("2"))).multiply(intPow(intPart.divide(new BigInteger("2"))));
+		else return intPow(intPart.divide(new BigInteger("2"))).multiply(intPow(intPart.divide(new BigInteger("2")))).multiply(this);
+	}
+	
+	//need to implement this
+	private Real decPow(BigDecimal decPart)
+	{
+		return Real.ONE;
 	}
 	
 	public static boolean isReal(String input)
