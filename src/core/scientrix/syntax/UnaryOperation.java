@@ -27,4 +27,8 @@ public class UnaryOperation implements Operation
 		return null;
 	}
 
+	public String toString()
+	{
+		return this.operator.toString()+"("+this.o1.toString()+")";
+	}
 }

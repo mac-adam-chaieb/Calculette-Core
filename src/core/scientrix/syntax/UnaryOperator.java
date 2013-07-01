@@ -7,7 +7,7 @@ package core.scientrix.syntax;
 public enum UnaryOperator 
 {
 	//ordered by increasing priority
-	LOG("log"), LN("ln"), COSINE("cos"), SINE("sin"), TANGENT("tan"), FACTORIAL("!"), SQROOT("sqrt"), NEGATE("-"), ARCCOS("arccos"), ARCSIN("arcsin"), ARCTAN("arctan"), ABSOLUTE("abs");
+	LOG("log"), LN("ln"), COSINE("cos"), SINE("sin"), TANGENT("tan"), FACTORIAL("!"), SQROOT1("sqrt"), SQROOT2("\u221A"), NEGATE("-"), ARCCOS("arccos"), ARCSIN("arcsin"), ARCTAN("arctan"), ABSOLUTE("abs");
 	public String operator;
 	
 	private UnaryOperator(String operator)

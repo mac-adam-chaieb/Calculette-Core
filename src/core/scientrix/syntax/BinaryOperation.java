@@ -47,4 +47,8 @@ public class BinaryOperation implements Operation
 		return null;
 	}
 
+	public String toString()
+	{
+		return "("+this.o1.toString()+") "+this.operator.toString()+" ("+this.o2.toString()+")";
+	}
 }
