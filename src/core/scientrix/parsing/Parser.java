@@ -18,6 +18,13 @@ public class Parser
 			return Real.E;
 		else if(expression.equals(/*to be changed to greek*/"pi"))
 			return Real.PI;
+		else if(containsBinaryOperator(expression))
+		{
+			for(BinaryOperator b : BinaryOperator.values())
+				if(expression.contains(b.toString()))
+					return new BinaryOperation(makeOperation(expression.substring(0, expression.indexOf(b.toString()))),
+							b, makeOperation(expression.substring(expression.indexOf(b.toString())+b.toString().length(), expression.length())));
+		}
 		else if(expression.startsWith(UnaryOperator.ABSOLUTE.toString()))
 			return new UnaryOperation(makeOperation(expression.substring(3)), UnaryOperator.ABSOLUTE);
 		else if(expression.startsWith(UnaryOperator.ARCCOS.toString()))
@@ -44,13 +51,6 @@ public class Parser
 			return new UnaryOperation(makeOperation(expression.substring(1)), UnaryOperator.SQROOT2);
 		else if(expression.startsWith(UnaryOperator.TANGENT.toString()))
 			return new UnaryOperation(makeOperation(expression.substring(3)), UnaryOperator.TANGENT);
-		else
-		{
-			for(BinaryOperator b : BinaryOperator.values())
-				if(expression.contains(b.toString()))
-					return new BinaryOperation(makeOperation(expression.substring(0, expression.indexOf(b.toString()))),
-							b, makeOperation(expression.substring(expression.indexOf(b.toString())+b.toString().length(), expression.length())));
-		}
 		return null;
 	}
 	
@@ -70,5 +70,13 @@ public class Parser
 		{
 			return false;
 		}
+	}
+	
+	private static boolean containsBinaryOperator(String input)
+	{
+		for(BinaryOperator b : BinaryOperator.values())
+			if(input.contains(b.toString()))
+				return true;
+		return false;
 	}
 }
