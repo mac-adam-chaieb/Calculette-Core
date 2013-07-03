@@ -20,4 +20,9 @@ public enum BinaryOperator
 	{
 		return this.operator.equals(other.operator);
 	}
+	
+	public String toString()
+	{
+		return this.operator;
+	}
 }

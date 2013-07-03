@@ -33,6 +33,8 @@ public class BinaryOperation implements Operation
 				return real1.add(real2);
 			if(this.operator.equals(BinaryOperator.MULTIPLY))
 				return real1.multiply(real2);
+			if(this.operator.equals(BinaryOperator.DIVIDE))
+				return real1.divide(real2, 20);
 			if(this.operator.equals(BinaryOperator.MOD))
 				return real1.mod(real2);
 			if(this.operator.equals(BinaryOperator.POW))
@@ -42,7 +44,8 @@ public class BinaryOperation implements Operation
 	}
 
 	@Override
-	public Operation substitute(Variable x, Real number) {
+	public Operation substitute(Variable x, Real number) 
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}

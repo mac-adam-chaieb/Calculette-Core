@@ -9,8 +9,9 @@ import core.scientrix.syntax.UnaryOperator;
 
 public class Parser 
 {
-	public static Operation makeOperation(String expression)
+	public static Operation makeOperation(String input)
 	{
+		String expression = preProcess(input);
 		if(isNumber(expression))
 			return new Real(expression);
 		else if(expression.equals("e"))
@@ -49,8 +50,13 @@ public class Parser
 				if(expression.contains(b.toString()))
 					return new BinaryOperation(makeOperation(expression.substring(0, expression.indexOf(b.toString()))),
 							b, makeOperation(expression.substring(expression.indexOf(b.toString())+b.toString().length(), expression.length())));
-			return null;
 		}
+		return null;
+	}
+	
+	private static String preProcess(String expression)
+	{
+		return expression;
 	}
 	
 	private static boolean isNumber(String input)

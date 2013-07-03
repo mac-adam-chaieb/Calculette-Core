@@ -29,6 +29,8 @@ public class UnaryOperation implements Operation
 
 	public String toString()
 	{
-		return this.operator.toString()+"("+this.o1.toString()+")";
+		if(this.operator.equals(UnaryOperator.FACTORIAL))
+			return "("+this.o1.toString()+")!";
+		else return this.operator.toString()+"("+this.o1.toString()+")";
 	}
 }

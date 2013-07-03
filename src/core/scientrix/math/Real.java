@@ -73,7 +73,11 @@ public class Real implements Operation, Value, Comparable<Real>
 
 	public Real divide(Real b, int scale)
 	{
-		try{BigDecimal output = this.real.divide(b.real); return new Real(output);}
+		try
+		{
+			BigDecimal output = this.real.divide(b.real); 
+			return new Real(output);
+		}
 		catch(Exception e)
 		{
 			BigDecimal output = this.real.divide(b.real, scale, BigDecimal.ROUND_HALF_UP); 
