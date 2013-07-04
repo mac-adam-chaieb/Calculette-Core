@@ -11,42 +11,41 @@ public class Parser
 {
 	public static Operation makeOperation(String input)
 	{
-		String expression = preProcess(input);
-		System.out.println(expression);
-		if(expression.contains("("))
+		String e = preProcess(input);
+		System.out.println(e);
+		if(e.contains("("))
 		{
-			StringBuilder builder = new StringBuilder(expression);
-			return makeOperation(expression.replace(expression.substring(expression.lastIndexOf("("), indexOfMatch(builder.lastIndexOf("("),builder.toString())+1),
-					makeOperation(builder.substring(builder.lastIndexOf("(")+1, indexOfMatch(builder.lastIndexOf("("),builder.toString()))).evaluate().toString()).toString());
+			return makeOperation(e.replace(e.substring(e.lastIndexOf("("), indexOfMatch(e.lastIndexOf("("),e.toString())+1),
+					makeOperation(e.substring(e.lastIndexOf("(")+1, indexOfMatch(e.lastIndexOf("("),e.toString()))).evaluate().toString()).toString());
 		}
-		else if(isNumber(expression))
-			return new Real(expression);
-		else if(expression.equals("e"))
+		else if(isNumber(e))
+			return new Real(e);
+		else if(e.equals("e"))
 			return Real.E;
-		else if(expression.equals(/*to be changed to greek*/"pi"))
+		else if(e.equals(/*to be changed to greek*/"pi"))
 			return Real.PI;
-		else if(containsBinaryOperator(expression))
+		else if(containsBinaryOperator(e))
 		{
 			for(BinaryOperator b : BinaryOperator.values())
-				if(expression.contains(b.toString()))
-					return new BinaryOperation(makeOperation(expression.substring(0, expression.indexOf(b.toString()))),
-							b, makeOperation(expression.substring(expression.indexOf(b.toString())+b.toString().length(), expression.length())));
+				if(e.contains(b.toString()))
+					return new BinaryOperation(makeOperation(e.substring(0, e.indexOf(b.toString()))),
+							b, makeOperation(e.substring(e.indexOf(b.toString())+b.toString().length(), e.length())));
 		}
-		else if(startsWithUnaryOperator(expression))
+		else if(startsWithUnaryOperator(e))
 		{
 			for(UnaryOperator u : UnaryOperator.values())
-				if(expression.startsWith(u.toString()))
-					return new UnaryOperation(makeOperation(expression.substring(u.toString().length())), u);
+				if(e.startsWith(u.toString()))
+					return new UnaryOperation(makeOperation(e.substring(u.toString().length())), u);
 		}
-		else if(expression.endsWith(UnaryOperator.FACTORIAL.toString()))
-			return new UnaryOperation(makeOperation(expression.substring(0,expression.length()-1)), UnaryOperator.FACTORIAL);
+		else if(e.endsWith(UnaryOperator.FACTORIAL.toString()))
+			return new UnaryOperation(makeOperation(e.substring(0,e.length()-1)), UnaryOperator.FACTORIAL);
 		return null;
 	}
 	
 	//helper functions -----------------------------------------------------------------------------------------
-	private static String preProcess(String expression)
+	private static String preProcess(String e)
 	{
-		StringBuilder input = new StringBuilder(expression.replaceAll("\\s",""));
+		StringBuilder input = new StringBuilder(e.replaceAll("\\s",""));
 		//add implicit multiplication signs where needed
 		for(int i = 0; i<input.length()-1;i++)
 		{
@@ -91,14 +90,14 @@ public class Parser
 		return (Character.isDigit(c) || c == 'e' || c == 'i' /*|| c == pi in greek*/);
 	}
 	
-	private static int indexOfMatch(int index, String expression)//index has to be index of an open parenthesis '('
+	private static int indexOfMatch(int index, String e)//index has to be index of an open parenthesis '('
 	{
 		int checker = 0;
-		for(int i = index;i<expression.length();i++)
+		for(int i = index;i<e.length();i++)
 		{
-			if(expression.charAt(i) == '(')
+			if(e.charAt(i) == '(')
 				checker++;
-			if(expression.charAt(i) == ')')
+			if(e.charAt(i) == ')')
 				checker--;
 			if(checker == 0)
 				return i;
