@@ -13,7 +13,14 @@ public class Parser
 	{
 		String expression = preProcess(input);
 		System.out.println(expression);
-		if(isNumber(expression))
+		if(expression.contains("("))
+		{
+			StringBuilder builder = new StringBuilder(expression);
+			return makeOperation(builder.replace(builder.lastIndexOf("("),
+					indexOfMatch(builder.lastIndexOf("("),builder.toString())+1,
+					makeOperation(builder.substring(builder.lastIndexOf("(")+1, indexOfMatch(builder.lastIndexOf("("),builder.toString()))).evaluate().toString()).toString());
+		}
+		else if(isNumber(expression))
 			return new Real(expression);
 		else if(expression.equals("e"))
 			return Real.E;
@@ -37,9 +44,18 @@ public class Parser
 		return null;
 	}
 	
+	//helper functions -----------------------------------------------------------------------------------------
 	private static String preProcess(String expression)
 	{
-		return expression;
+		StringBuilder input = new StringBuilder(expression.replaceAll("\\s",""));
+		//add implicit multiplication signs where needed
+		for(int i = 0; i<input.length()-1;i++)
+		{
+			if((input.charAt(i+1) == '(' && (input.charAt(i) == ')' || isNumeric(input.charAt(i)))) 
+				|| (input.charAt(i) == ')' && isNumeric(input.charAt(i+1))))
+				input.insert(i, '*');
+		}
+		return input.toString();
 	}
 	
 	private static boolean isNumber(String input)
@@ -69,5 +85,25 @@ public class Parser
 			if(u != UnaryOperator.FACTORIAL && input.startsWith(u.toString()))
 				return true;
 		return false;
+	}
+	
+	private static boolean isNumeric(char c)
+	{
+		return (Character.isDigit(c) || c == 'e' || c == 'i' /*|| c == pi in greek*/);
+	}
+	
+	private static int indexOfMatch(int index, String expression)//index has to be index of an open parenthesis '('
+	{
+		int checker = 0;
+		for(int i = index;i<expression.length();i++)
+		{
+			if(expression.charAt(i) == '(')
+				checker++;
+			if(expression.charAt(i) == ')')
+				checker--;
+			if(checker == 0)
+				return i;
+		}
+		return index;
 	}
 }
