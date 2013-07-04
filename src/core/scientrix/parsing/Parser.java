@@ -16,8 +16,7 @@ public class Parser
 		if(expression.contains("("))
 		{
 			StringBuilder builder = new StringBuilder(expression);
-			return makeOperation(builder.replace(builder.lastIndexOf("("),
-					indexOfMatch(builder.lastIndexOf("("),builder.toString())+1,
+			return makeOperation(expression.replace(expression.substring(expression.lastIndexOf("("), indexOfMatch(builder.lastIndexOf("("),builder.toString())+1),
 					makeOperation(builder.substring(builder.lastIndexOf("(")+1, indexOfMatch(builder.lastIndexOf("("),builder.toString()))).evaluate().toString()).toString());
 		}
 		else if(isNumber(expression))

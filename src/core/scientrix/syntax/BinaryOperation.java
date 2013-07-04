@@ -30,7 +30,7 @@ public class BinaryOperation implements Operation
 			if(this.operator.equals(BinaryOperator.PLUS))
 				return real1.add(real2);
 			if(this.operator.equals(BinaryOperator.MINUS))
-				return real1.add(real2);
+				return real1.subtract(real2);
 			if(this.operator.equals(BinaryOperator.MULTIPLY))
 				return real1.multiply(real2);
 			if(this.operator.equals(BinaryOperator.DIVIDE))
