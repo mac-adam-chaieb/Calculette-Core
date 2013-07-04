@@ -6,7 +6,7 @@ public class Tester
 {
 	public static void main(String[] args)
 	{
-		Operation o = Parser.makeOperation("cos4+2*1!");
+		Operation o = Parser.makeOperation("4+2*3!");
 		System.out.println(o);
 		System.out.println(o.evaluate());
 	}

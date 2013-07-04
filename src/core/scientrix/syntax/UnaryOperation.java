@@ -16,7 +16,6 @@ public class UnaryOperation implements Operation
 	@Override
 	public Value evaluate() 
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
