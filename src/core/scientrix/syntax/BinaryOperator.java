@@ -8,7 +8,7 @@ package core.scientrix.syntax;
 public enum BinaryOperator 
 {
 	//ordered by increasing priority
-	MOD("mod"), PLUS("+"), MINUS("-"), DIVIDE("/"), MULTIPLY("*"), POW("^");
+	PLUS("+"), MINUS("-"), MOD("mod"), DIVIDE("/"), MULTIPLY("*"), POW("^");
 	public String operator;
 	
 	private BinaryOperator(String operator)

@@ -22,7 +22,7 @@ public class Parser
 			return new Real(e);
 		else if(e.equals("e"))
 			return Real.E;
-		else if(e.equals(/*to be changed to greek*/"pi"))
+		else if(e.equals("pi") || e.equals("\u03C0"))
 			return Real.PI;
 		else if(containsBinaryOperator(e))
 		{
