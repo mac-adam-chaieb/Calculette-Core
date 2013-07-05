@@ -26,6 +26,11 @@ public class UnaryOperation implements Operation
 		return null;
 	}
 
+	public int length()
+	{
+		return 1+o1.length();
+	}
+	
 	public String toString()
 	{
 		if(this.operator.equals(UnaryOperator.FACTORIAL))

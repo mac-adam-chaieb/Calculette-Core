@@ -50,6 +50,11 @@ public class BinaryOperation implements Operation
 		return null;
 	}
 
+	public int length()
+	{
+		return 1+o1.length()+o2.length();
+	}
+	
 	public String toString()
 	{
 		return "("+this.o1.toString()+") "+this.operator.toString()+" ("+this.o2.toString()+")";

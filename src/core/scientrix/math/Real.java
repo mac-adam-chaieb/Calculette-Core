@@ -150,4 +150,9 @@ public class Real implements Operation, Value, Comparable<Real>
 	{
 		return this.real.compareTo(other.real);
 	}
+	
+	public int length()
+	{
+		return 0;
+	}
 }

@@ -15,4 +15,7 @@ public interface Operation
 	
 	//substitutes any occurrence of x with number
 	public Operation substitute(Variable x, Real number);
+	
+	//returns the number of operations performed by the operation
+	public int length();
 }

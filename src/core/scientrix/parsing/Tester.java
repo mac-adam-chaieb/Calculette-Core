@@ -6,8 +6,13 @@ public class Tester
 {
 	public static void main(String[] args)
 	{
-		Operation o = Parser.makeOperation("-(3+2)+5mod3");
-		System.out.println(o);
-		System.out.println(o.evaluate());
+		String e = "(4+4)+5-8";
+		long t = System.currentTimeMillis();
+		Operation o = Parser.makeOperation(e);
+		System.out.println("Result of operation: "+o.evaluate());
+		//time taken to construct expression tree and evaluate it
+		System.out.println("Time elapsed in milliseconds: "+(System.currentTimeMillis()-t));
+		System.out.println("Operation formed: "+o.toString());
+		System.out.println("Number of operations: "+o.length());
 	}
 }
