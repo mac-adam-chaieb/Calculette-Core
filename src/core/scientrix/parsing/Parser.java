@@ -14,17 +14,15 @@ public class Parser
 		String e = preProcess(input);
 		System.out.println(e);
 		if(e.contains("("))
-		{
-			return makeOperation(e.replace(e.substring(e.lastIndexOf("("), indexOfMatch(e.lastIndexOf("("),e.toString())+1),
-					makeOperation(e.substring(e.lastIndexOf("(")+1, indexOfMatch(e.lastIndexOf("("),e.toString()))).evaluate().toString()).toString());
-		}
+			return makeOperation(e.replace(e.substring(e.lastIndexOf("("), matchIndex(e.lastIndexOf("("),e.toString())+1),
+					makeOperation(e.substring(e.lastIndexOf("(")+1, matchIndex(e.lastIndexOf("("),e.toString()))).evaluate().toString()).toString());
 		else if(isNumber(e))
 			return new Real(e);
 		else if(e.equals("e"))
 			return Real.E;
 		else if(e.equals("pi") || e.equals("\u03C0"))
 			return Real.PI;
-		else if(containsBinaryOperator(e))
+		else if(containsInfixBinaryOperator(e))
 		{
 			for(BinaryOperator b : BinaryOperator.values())
 				if(e.contains(b.toString()))
@@ -72,10 +70,22 @@ public class Parser
 		}
 	}
 	
-	private static boolean containsBinaryOperator(String input)
+	private static boolean containsInfixBinaryOperator(String input)
 	{
 		for(BinaryOperator b : BinaryOperator.values())
+		{
+			if(b.isPrefix())//ignore prefix operator in BinaryOperator.values()
+				break;
 			if(input.contains(b.toString()))
+				return true;
+		}
+		return false;
+	}
+	
+	private static boolean startsWithPrefixBinaryOperator(String input)
+	{
+		for(BinaryOperator b : BinaryOperator.prefixValues())
+			if(input.startsWith(b.toString()))
 				return true;
 		return false;
 	}
@@ -88,18 +98,35 @@ public class Parser
 		return false;
 	}
 	
-	private static int indexOfMatch(int index, String e)//index has to be index of an open parenthesis '('
+	private static int matchIndex(int index, String input)//index has to be index of an open parenthesis '('
 	{
 		int checker = 0;
-		for(int i = index;i<e.length();i++)
+		for(int i = index;i<input.length();i++)
 		{
-			if(e.charAt(i) == '(')
+			if(input.charAt(i) == '(')
 				checker++;
-			if(e.charAt(i) == ')')
+			if(input.charAt(i) == ')')
 				checker--;
 			if(checker == 0)
 				return i;
 		}
 		return index;
+	}
+	
+	private static int commaIndex(String input)
+	{
+		int occurrences = 0;
+		int counter = 0;
+		for(int i=0;i<input.length();i++)
+			if(input.charAt(i) == ',')
+				occurrences++;
+		for(int i=0;i<input.length();i++)
+			if(input.charAt(i) == ',')
+			{
+				counter++;
+				if(counter == (int)Math.ceil(occurrences/2.0))
+					return i;
+			}
+		return -1;
 	}
 }

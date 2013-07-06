@@ -39,6 +39,14 @@ public class BinaryOperation implements Operation
 				return real1.mod(real2);
 			if(this.operator.equals(BinaryOperator.POW))
 				return real1.pow(real2);
+			if(this.operator.equals(BinaryOperator.MIN))
+				return real1.min(real2);
+			if(this.operator.equals(BinaryOperator.MAX))
+				return real1.max(real2);
+			if(this.operator.equals(BinaryOperator.GCD))
+				return real1.gcd(real2);
+			if(this.operator.equals(BinaryOperator.LCM))
+				return real1.lcm(real2);
 		}
 		return (new BinaryOperation((Operation)this.o1.evaluate(), this.operator, (Operation)this.o2.evaluate() )).evaluate();
 	}

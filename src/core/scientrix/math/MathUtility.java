@@ -64,21 +64,6 @@ public class MathUtility
       return false;
   }
   
-  public static BigInteger gcd(BigInteger n1, BigInteger n2)
-  {
-    return n1.gcd(n2);
-  }
-  
-  public static int gcd(int n1, int n2)
-  {
-    return new BigInteger(n1+"").gcd(new BigInteger(n2+"")).intValue();
-  }
-  
-  public static BigInteger lcm(BigInteger n1, BigInteger n2)
-  {
-    return (n1.multiply(n2)).divide(gcd(n1,n2));
-  }
-  
   public static BigInteger pow(int input, int power)
   {
     if(power==0)

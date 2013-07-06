@@ -8,7 +8,7 @@ package core.scientrix.syntax;
 public enum BinaryOperator 
 {
 	//ordered by increasing priority
-	PLUS("+"), MINUS("-"), MOD("mod"), DIVIDE("/"), MULTIPLY("*"), POW("^");
+	PLUS("+"), MINUS("-"), MOD("mod"), DIVIDE("/"), MULTIPLY("*"), POW("^"), MIN("min"), MAX("max"), GCD("gcd"), LCM("lcm");
 	public String operator;
 	
 	private BinaryOperator(String operator)
@@ -24,5 +24,16 @@ public enum BinaryOperator
 	public String toString()
 	{
 		return this.operator;
+	}
+	
+	public boolean isPrefix()
+	{
+		return (this.equals(BinaryOperator.MAX) || this.equals(BinaryOperator.MIN) || this.equals(BinaryOperator.LCM) || this.equals(BinaryOperator.GCD));
+	}
+	
+	public static BinaryOperator[] prefixValues()
+	{
+		BinaryOperator[] output = {BinaryOperator.MAX, BinaryOperator.MIN, BinaryOperator.LCM, BinaryOperator.GCD};
+		return output;
 	}
 }

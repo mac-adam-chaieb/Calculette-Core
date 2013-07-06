@@ -6,7 +6,7 @@ public class Tester
 {
 	public static void main(String[] args)
 	{
-		String e = "(4+4)+5-8";
+		String e = "max[3,4+5]+log6";
 		long t = System.currentTimeMillis();
 		Operation o = Parser.makeOperation(e);
 		System.out.println("Result of operation: "+o.evaluate());

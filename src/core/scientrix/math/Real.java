@@ -30,6 +30,11 @@ public class Real implements Operation, Value, Comparable<Real>
 		this.real = real;
 	}
 	
+	public Real(BigInteger integer)
+	{
+		this.real = new BigDecimal(integer);
+	}
+	
 	public Real(int real)
 	{
 		this.real = new BigDecimal(real);
@@ -47,6 +52,8 @@ public class Real implements Operation, Value, Comparable<Real>
 
 	public String toString()
 	{
+		if(this.real.toBigInteger().equals(this.real))
+			return this.real.toBigInteger().toString();
 		return this.real.toString();
 	}
 
@@ -103,6 +110,16 @@ public class Real implements Operation, Value, Comparable<Real>
 	public Real min(Real b)
 	{
 		return new Real(this.real.min(b.real));
+	}
+	
+	public Real gcd(Real b)
+	{
+		return new Real(this.real.toBigInteger().gcd(b.real.toBigInteger()));
+	}
+	
+	public Real lcm(Real b)
+	{
+		return this.multiply(b).divide(this.gcd(b), 20);
 	}
 	
 	public Real pow(Real x)
