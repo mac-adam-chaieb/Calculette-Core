@@ -1,27 +1,34 @@
 package core.scientrix.parsing;
 
+import java.util.HashMap;
+
 import core.scientrix.math.Real;
 import core.scientrix.syntax.BinaryOperation;
 import core.scientrix.syntax.BinaryOperator;
 import core.scientrix.syntax.Operation;
 import core.scientrix.syntax.UnaryOperation;
 import core.scientrix.syntax.UnaryOperator;
+import core.scientrix.syntax.Variable;
 
 public class Parser 
 {
+	public static HashMap<Variable, Operation> variables = new HashMap<Variable, Operation>();
+	
 	public static Operation makeOperation(String input)
 	{
 		String e = preProcess(input);
+		
+		//loadVariables();
 		System.out.println(e);
-		if(e.contains("("))
-			return makeOperation(e.replace(e.substring(e.lastIndexOf("("), matchIndex(e.lastIndexOf("("),e.toString())+1),
-					makeOperation(e.substring(e.lastIndexOf("(")+1, matchIndex(e.lastIndexOf("("),e.toString()))).evaluate().toString()).toString());
-		else if(isNumber(e))
+		if(isNumber(e))
 			return new Real(e);
 		else if(e.equals("e"))
 			return Real.E;
-		else if(e.equals("pi") || e.equals("\u03C0"))
+		else if(e.equals("\u03C0"))//pi
 			return Real.PI;
+		else if(e.contains("("))
+			return makeOperation(e.replace(e.substring(e.lastIndexOf("("), matchIndex(e.lastIndexOf("("),e.toString())+1),
+					makeOperation(e.substring(e.lastIndexOf("(")+1, matchIndex(e.lastIndexOf("("),e.toString()))).evaluate().toString()).toString());
 		else if(containsInfixBinaryOperator(e))
 		{
 			for(BinaryOperator b : BinaryOperator.values())
@@ -44,17 +51,21 @@ public class Parser
 	private static String preProcess(String e)
 	{
 		StringBuilder input = new StringBuilder(e.replaceAll("\\s","").replaceAll("pi", "\u03C0"));
+		String output = input.toString();
 		//add implicit multiplication signs where needed
-		for(int i = 1; i<input.length();i++)
+		for(int i=0;i<output.length()-1;i++)
 		{
-			//to be fixed
-			if((Character.isLetter(input.charAt(i)) && (Character.isDigit(input.charAt(i-1)) || input.charAt(i-1) == 'e' || input.charAt(i-1) == '\u03C0' || input.charAt(i-1) == ')')) 
-					|| (Character.isDigit(input.charAt(i)) && input.charAt(i-1) == ')') 
-					|| (input.charAt(i) == '(' && input.charAt(i-1) == ')')
-					|| ((input.charAt(i-1) == 'e' || input.charAt(i-1) == '\u03C0') && input.charAt(i) == '('))
-		        input.insert(i,"*");
+			if((Character.isDigit(output.charAt(i)) || endsWithVariable(output.substring(0, i+1))) && (startsWithUnaryOperator(output.substring(i+1)) || output.charAt(i+1) == '(' || startsWithVariable(output.substring(i+1)))
+				|| ((output.charAt(i) == ')') && (startsWithUnaryOperator(output.substring(i+1)) || startsWithVariable(output.substring(i+1)))))
+				output = input.insert(i+1, '*').toString();
 		}
-		return input.toString();
+		return output;
+	}
+	
+	public static void loadVariables(HashMap<String, String> input)
+	{
+		for(String s : input.keySet())
+			Parser.variables.put(new Variable(s), makeOperation(input.get(s)));
 	}
 	
 	private static boolean isNumber(String input)
@@ -90,11 +101,61 @@ public class Parser
 		return false;
 	}
 	
+	private static boolean startsWithBinaryOperator(String input)
+	{
+		for(BinaryOperator b : BinaryOperator.values())
+			if(input.startsWith(b.toString()))
+				return true;
+		return false;
+	}
+	
+	private static boolean startsWithVariable(String e)
+	{
+		if(!(startsWithUnaryOperator(e)) && !(startsWithPrefixBinaryOperator(e)))
+		{
+			if( e.startsWith("e") || e.startsWith("\u03C0"))
+				return true;
+			else for(Variable v : variables.keySet())
+					if(e.startsWith(v.toString()))
+						return true;
+		}
+		return false;
+	}
+	
 	private static boolean startsWithUnaryOperator(String input)
 	{
 		for(UnaryOperator u : UnaryOperator.values())
-			if(u != UnaryOperator.FACTORIAL && input.startsWith(u.toString()))
+			if(u != UnaryOperator.FACTORIAL && u!= UnaryOperator.NEGATE && input.startsWith(u.toString()))
 				return true;
+		return false;
+	}
+	
+	private static boolean endsWithPrefixBinaryOperator(String input)
+	{
+		for(BinaryOperator b : BinaryOperator.prefixValues())
+			if(input.endsWith(b.toString()))
+				return true;
+		return false;
+	}
+	
+	private static boolean endsWithUnaryOperator(String input)
+	{
+		for(UnaryOperator u : UnaryOperator.values())
+			if(input.endsWith(u.toString()))
+				return true;
+		return false;
+	}
+	
+	private static boolean endsWithVariable(String e)
+	{
+		if(!(endsWithUnaryOperator(e)) && !(endsWithPrefixBinaryOperator(e)))
+		{
+			if( e.endsWith("e") || e.endsWith("\u03C0"))
+				return true;
+			else for(Variable v : variables.keySet())
+					if(e.endsWith(v.toString()))
+						return true;
+		}
 		return false;
 	}
 	

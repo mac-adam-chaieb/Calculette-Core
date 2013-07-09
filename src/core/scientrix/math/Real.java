@@ -52,7 +52,7 @@ public class Real implements Operation, Value, Comparable<Real>
 
 	public String toString()
 	{
-		if(this.real.toBigInteger().equals(this.real))
+		if(this.subtract(new Real(this.real.toBigInteger())).equals(Real.ZERO))
 			return this.real.toBigInteger().toString();
 		return this.real.toString();
 	}
@@ -166,6 +166,11 @@ public class Real implements Operation, Value, Comparable<Real>
 	public int compareTo(Real other)
 	{
 		return this.real.compareTo(other.real);
+	}
+	
+	public Real len()
+	{
+		return new Real(this.toString().length());
 	}
 	
 	public int length()

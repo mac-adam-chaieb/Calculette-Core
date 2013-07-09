@@ -16,13 +16,18 @@ public class UnaryOperation implements Operation
 	@Override
 	public Value evaluate() 
 	{
-		return null;
+		if((this.o1 instanceof Real))
+		{
+			Real real = (Real)this.o1;
+			if(this.operator.equals(UnaryOperator.LEN))
+				return real.len();
+		}
+		return new UnaryOperation((Operation)o1.evaluate(), this.operator).evaluate();
 	}
 
 	@Override
-	public Operation substitute(Variable x, Real number) 
+	public Operation substitute(Variable x, Real number)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
