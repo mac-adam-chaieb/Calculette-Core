@@ -1,6 +1,6 @@
-package core.scientrix.math;
+package scientrix.core.math;
 
-import core.scientrix.syntax.Value;
+import scientrix.core.syntax.Value;
 
 public class Matrix implements Value
 {
@@ -92,7 +92,7 @@ public class Matrix implements Value
   {
     if(this.isInvertible())
     {
-    	return this.adjoint().multiplyByScalar(Real.ONE.divide(this.determinant(), 20));
+    	return this.adjoint().multiplyByScalar(Real.ONE.divide(this.determinant()));
     }
     else return null;
   }

@@ -1,9 +1,11 @@
-package core.scientrix.math;
+package scientrix.core.math;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import core.scientrix.syntax.*;
+import scientrix.core.syntax.Operation;
+import scientrix.core.syntax.Value;
+import scientrix.core.syntax.Variable;
 
 /*
  * @author Mohamed Adam Chaieb
@@ -14,6 +16,9 @@ import core.scientrix.syntax.*;
 public class Real implements Operation, Value, Comparable<Real>
 {
 	public final BigDecimal real;
+	public String decimalPart;
+	public String integerPart;
+	private int scale;
 	public static final Real TWO = new Real(new BigDecimal("2"));
 	public static final Real ONE = new Real(BigDecimal.ONE);
 	public static final Real ZERO = new Real(BigDecimal.ZERO);
@@ -23,21 +28,24 @@ public class Real implements Operation, Value, Comparable<Real>
 	public Real(String real)
 	{
 		this.real = new BigDecimal(real);
+		this.integerPart = this.real.toBigInteger().toString();
+		this.decimalPart = this.real.subtract(new BigDecimal(this.integerPart)).toString();
+		this.scale = 20;
 	}
 
 	public Real(BigDecimal real)
 	{
-		this.real = real;
+		this(real.toString());
 	}
 	
 	public Real(BigInteger integer)
 	{
-		this.real = new BigDecimal(integer);
+		this(integer.toString());
 	}
 	
 	public Real(int real)
 	{
-		this.real = new BigDecimal(real);
+		this(real+"");
 	}
 
 	public Value evaluate()
@@ -78,7 +86,7 @@ public class Real implements Operation, Value, Comparable<Real>
 		return new Real(this.real.subtract(b.real));
 	}
 
-	public Real divide(Real b, int scale)
+	public Real divide(Real b)
 	{
 		try
 		{
@@ -87,7 +95,7 @@ public class Real implements Operation, Value, Comparable<Real>
 		}
 		catch(Exception e)
 		{
-			BigDecimal output = this.real.divide(b.real, scale, BigDecimal.ROUND_HALF_UP); 
+			BigDecimal output = this.real.divide(b.real, this.scale, BigDecimal.ROUND_HALF_UP); 
 			return new Real(output);
 		}
 	}
@@ -97,11 +105,24 @@ public class Real implements Operation, Value, Comparable<Real>
 		return new Real(this.real.remainder(b.real));
 	}
 
-	public Real negate(Real a)
+	public Real negate()
 	{
 		return new Real(this.real.negate());
 	}
-
+	
+	public Real factorial()
+	{
+		if(this.equals(Real.ZERO) || this.equals(Real.ONE))
+			return Real.ONE;
+		else
+		{
+			Real next = Real.ONE;
+			for(Real index = Real.ONE; (index.compareTo(this) <= 0); index = index.add(Real.ONE))
+				next = next.multiply(index);
+			return next;
+		}
+	}
+	
 	public Real max(Real b)
 	{
 		return new Real(this.real.max(b.real));
@@ -119,7 +140,7 @@ public class Real implements Operation, Value, Comparable<Real>
 	
 	public Real lcm(Real b)
 	{
-		return this.multiply(b).divide(this.gcd(b), 20);
+		return this.multiply(b).divide(this.gcd(b));
 	}
 	
 	public Real pow(Real x)
@@ -141,6 +162,29 @@ public class Real implements Operation, Value, Comparable<Real>
 	private Real decPow(BigDecimal decPart)
 	{
 		return Real.ONE;
+	}
+	
+	public Real sine()
+	{
+		Real output = Real.ZERO;
+		for(Real r = Real.ZERO; (r.compareTo(new Real(50)) <= 0);r = r.add(Real.ONE))
+			output = output.add(((Real.ONE.negate()).pow(r)).multiply(this.pow((r.multiply(Real.TWO)).add(Real.ONE)))
+					.divide(((r.multiply(Real.TWO)).add(Real.ONE)).factorial()));
+		return output;
+	}
+	
+	public Real cosine()
+	{
+		Real output = Real.ZERO;
+		for(Real r = Real.ZERO; (r.compareTo(new Real(50)) <= 0);r = r.add(Real.ONE))
+			output = output.add(((Real.ONE.negate()).pow(r)).multiply(this.pow(r.multiply(Real.TWO)))
+					.divide((r.multiply(Real.TWO)).factorial()));
+		return output;
+	}
+	
+	public Real tangent()
+	{
+		return this.sine().divide(this.cosine());
 	}
 	
 	public static boolean isReal(String input)
@@ -176,5 +220,25 @@ public class Real implements Operation, Value, Comparable<Real>
 	public int length()
 	{
 		return 0;
+	}
+	
+	public boolean isInteger()
+	{
+		return (this.real.toBigInteger().equals(new BigInteger(this.integerPart)));
+	}
+	
+	public Real clone()
+	{
+		return new Real(this.real);
+	}
+	
+	public void setScale(int scale)
+	{
+		this.scale = scale;
+	}
+	
+	public int getScale()
+	{
+		return this.scale;
 	}
 }

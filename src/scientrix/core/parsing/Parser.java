@@ -1,14 +1,15 @@
-package core.scientrix.parsing;
+package scientrix.core.parsing;
 
 import java.util.HashMap;
 
-import core.scientrix.math.Real;
-import core.scientrix.syntax.BinaryOperation;
-import core.scientrix.syntax.BinaryOperator;
-import core.scientrix.syntax.Operation;
-import core.scientrix.syntax.UnaryOperation;
-import core.scientrix.syntax.UnaryOperator;
-import core.scientrix.syntax.Variable;
+import scientrix.core.math.Real;
+import scientrix.core.syntax.BinaryOperation;
+import scientrix.core.syntax.BinaryOperator;
+import scientrix.core.syntax.Operation;
+import scientrix.core.syntax.UnaryOperation;
+import scientrix.core.syntax.UnaryOperator;
+import scientrix.core.syntax.Variable;
+
 
 public class Parser 
 {

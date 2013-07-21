@@ -1,4 +1,4 @@
-package core.scientrix.math;
+package testers;
 
 public class MatrixTester
 {

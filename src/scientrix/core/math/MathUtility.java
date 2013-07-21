@@ -1,4 +1,4 @@
-package core.scientrix.math;
+package scientrix.core.math;
 
 import java.math.*;
 import java.util.*;

@@ -1,6 +1,6 @@
-package core.scientrix.syntax;
+package scientrix.core.syntax;
 
-import core.scientrix.math.Real;
+import scientrix.core.math.Real;
 
 public class UnaryOperation implements Operation 
 {
@@ -21,6 +21,14 @@ public class UnaryOperation implements Operation
 			Real real = (Real)this.o1;
 			if(this.operator.equals(UnaryOperator.LEN))
 				return real.len();
+			else if(this.operator.equals(UnaryOperator.FACTORIAL))
+				return real.factorial();
+			else if(this.operator.equals(UnaryOperator.SINE))
+				return real.sine();
+			else if(this.operator.equals(UnaryOperator.COSINE))
+				return real.cosine();
+			else if(this.operator.equals(UnaryOperator.TANGENT))
+				return real.tangent();
 		}
 		return new UnaryOperation((Operation)o1.evaluate(), this.operator).evaluate();
 	}

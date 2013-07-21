@@ -1,6 +1,6 @@
-package core.scientrix.syntax;
+package scientrix.core.syntax;
 
-import core.scientrix.math.Real;
+import scientrix.core.math.Real;
 
 /*
  * @author Mohamed Adam Chaieb
@@ -34,7 +34,7 @@ public class BinaryOperation implements Operation
 			if(this.operator.equals(BinaryOperator.MULTIPLY))
 				return real1.multiply(real2);
 			if(this.operator.equals(BinaryOperator.DIVIDE))
-				return real1.divide(real2, 20);
+				return real1.divide(real2);
 			if(this.operator.equals(BinaryOperator.MOD))
 				return real1.mod(real2);
 			if(this.operator.equals(BinaryOperator.POW))

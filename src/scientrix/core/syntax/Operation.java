@@ -1,6 +1,6 @@
-package core.scientrix.syntax;
+package scientrix.core.syntax;
 
-import core.scientrix.math.Real;
+import scientrix.core.math.Real;
 
 /*
  * @author Mohamed Adam Chaieb

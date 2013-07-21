@@ -1,12 +1,13 @@
-package core.scientrix.parsing;
+package testers;
 
-import core.scientrix.syntax.Operation;
+import scientrix.core.parsing.Parser;
+import scientrix.core.syntax.Operation;
 
 public class Tester 
 {
 	public static void main(String[] args)
 	{
-		String e = "9(-9)";
+		String e = "tan(pi/3)";
 		long t = System.currentTimeMillis();
 		Operation o = Parser.makeOperation(e);
 		System.out.println("Result of operation: "+o.evaluate());
