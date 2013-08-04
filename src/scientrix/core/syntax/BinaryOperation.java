@@ -12,14 +12,14 @@ public class BinaryOperation implements Operation
 	public Operation o1;
 	public Operation o2;
 	public BinaryOperator operator;
-	
+
 	public BinaryOperation(Operation o1, BinaryOperator operator, Operation o2)
 	{
 		this.o1 = o1;
 		this.o2 = o2;
 		this.operator = operator;
 	}
-	
+
 	@Override
 	public Value evaluate() 
 	{
@@ -47,22 +47,25 @@ public class BinaryOperation implements Operation
 				return real1.gcd(real2);
 			if(this.operator.equals(BinaryOperator.LCM))
 				return real1.lcm(real2);
+			if(this.operator.equals(BinaryOperator.PERMUTATION))
+				return real1.permutations(real2);
+			if(this.operator.equals(BinaryOperator.COMBINATION))
+				return real1.combinations(real2);
 		}
 		return (new BinaryOperation((Operation)this.o1.evaluate(), this.operator, (Operation)this.o2.evaluate() )).evaluate();
 	}
 
 	@Override
-	public Operation substitute(Variable x, Real number) 
+	public Operation substitute(Variable x, Operation operation) 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return new BinaryOperation(this.o1.substitute(x, operation), this.operator, this.o2.substitute(x, operation));
 	}
 
 	public int length()
 	{
 		return 1+o1.length()+o2.length();
 	}
-	
+
 	public String toString()
 	{
 		return "("+this.o1.toString()+") "+this.operator.toString()+" ("+this.o2.toString()+")";

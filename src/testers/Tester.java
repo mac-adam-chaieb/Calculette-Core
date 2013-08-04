@@ -7,7 +7,7 @@ public class Tester
 {
 	public static void main(String[] args)
 	{
-		String e = "tan(pi/3)";
+		String e = "";
 		long t = System.currentTimeMillis();
 		Operation o = Parser.makeOperation(e);
 		System.out.println("Result of operation: "+o.evaluate());

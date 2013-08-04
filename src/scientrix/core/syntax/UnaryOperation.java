@@ -6,13 +6,13 @@ public class UnaryOperation implements Operation
 {
 	public Operation o1;
 	public UnaryOperator operator;
-	
+
 	public UnaryOperation(Operation o1, UnaryOperator operator)
 	{
 		this.o1 = o1;
 		this.operator = operator;
 	}
-	
+
 	@Override
 	public Value evaluate() 
 	{
@@ -21,29 +21,33 @@ public class UnaryOperation implements Operation
 			Real real = (Real)this.o1;
 			if(this.operator.equals(UnaryOperator.LEN))
 				return real.len();
-			else if(this.operator.equals(UnaryOperator.FACTORIAL))
+			if(this.operator.equals(UnaryOperator.FACTORIAL))
 				return real.factorial();
-			else if(this.operator.equals(UnaryOperator.SINE))
+			if(this.operator.equals(UnaryOperator.SINE))
 				return real.sine();
-			else if(this.operator.equals(UnaryOperator.COSINE))
+			if(this.operator.equals(UnaryOperator.COSINE))
 				return real.cosine();
-			else if(this.operator.equals(UnaryOperator.TANGENT))
+			if(this.operator.equals(UnaryOperator.TANGENT))
 				return real.tangent();
+			if(this.operator.equals(UnaryOperator.NEGATE))
+				return real.negate();
+			if(this.operator.equals(UnaryOperator.IDENTITY))
+				return real;
 		}
 		return new UnaryOperation((Operation)o1.evaluate(), this.operator).evaluate();
 	}
 
 	@Override
-	public Operation substitute(Variable x, Real number)
+	public Operation substitute(Variable x, Operation operation)
 	{
-		return null;
+		return new UnaryOperation(this.o1.substitute(x, operation), this.operator);
 	}
 
 	public int length()
 	{
 		return 1+o1.length();
 	}
-	
+
 	public String toString()
 	{
 		if(this.operator.equals(UnaryOperator.FACTORIAL))

@@ -1,6 +1,5 @@
 package scientrix.core.syntax;
 
-import scientrix.core.math.Real;
 
 /*
  * @author Mohamed Adam Chaieb
@@ -14,7 +13,7 @@ public interface Operation
 	public Value evaluate();
 	
 	//substitutes any occurrence of x with number
-	public Operation substitute(Variable x, Real number);
+	public Operation substitute(Variable x, Operation operation);
 	
 	//returns the number of operations performed by the operation
 	public int length();
