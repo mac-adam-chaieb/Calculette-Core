@@ -1,6 +1,7 @@
 package scientrix.core.parsing;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import scientrix.core.math.Real;
 import scientrix.core.syntax.BinaryOperation;
@@ -19,47 +20,64 @@ public class Parser
 	{
 		String e = preProcess(input);
 
-		//loadVariables();
+		loadVariables();
 		System.out.println(e);
 		if(isNumber(e))
 			return new Real(e);
-		else if(e.equals("e"))
-			return Real.E;
-		else if(e.equals("\u03C0"))//pi
-			return Real.PI;
-		else if(e.contains("("))
-			return makeOperation(e.replace(e.substring(e.lastIndexOf("("), matchIndex(e.lastIndexOf("("),e.toString())+1),
-					makeOperation(e.substring(e.lastIndexOf("(")+1, matchIndex(e.lastIndexOf("("),e.toString()))).evaluate().toString()).toString());
-		else if(containsInfixBinaryOperator(e))
+		else if(isVariable(e))
+			return getValue(e);
+		else if(containsInfixBinaryOperator(e)[0] == 1)
 		{
-			for(BinaryOperator b : BinaryOperator.values())
-				if(e.contains(b.toString()))
-					return new BinaryOperation(makeOperation(e.substring(0, e.indexOf(b.toString()))),
-							b, makeOperation(e.substring(e.indexOf(b.toString())+b.toString().length(), e.length())));
+			BinaryOperator b = BinaryOperator.values()[containsInfixBinaryOperator(e)[2]];
+			int splitIndex = containsInfixBinaryOperator(e)[1];
+			return new BinaryOperation(makeOperation(e.substring(0, splitIndex)),
+							b, makeOperation(e.substring(splitIndex+b.toString().length(), e.length())));
 		}
-		else if(startsWithUnaryOperator(e))
-		{
-			for(UnaryOperator u : UnaryOperator.values())
-				if(e.startsWith(u.toString()))
-					return new UnaryOperation(makeOperation(e.substring(u.toString().length())), u);
-		}
+		else if(startsWithUnaryOperator(e)[0] == 1)
+			return new UnaryOperation(makeOperation(e.substring(UnaryOperator.values()[startsWithUnaryOperator(e)[1]].toString().length())),
+					UnaryOperator.values()[startsWithUnaryOperator(e)[1]]);
 		else if(e.endsWith(UnaryOperator.FACTORIAL.toString()))
 			return new UnaryOperation(makeOperation(e.substring(0,e.length()-1)), UnaryOperator.FACTORIAL);
+		else if(e.startsWith("(") && e.endsWith(")"))
+			return makeOperation(e.substring(1, e.length()-1));
 		return null;
 	}
 
 	//helper functions -----------------------------------------------------------------------------------------
+	public static void loadVariables()
+	{
+		Parser.variables.add(new Variable("e", Real.E));
+		Parser.variables.add(new Variable("\u03C0", Real.PI));
+		Parser.variables.add(new Variable("pi", Real.PI));
+	}
+	
+	public static Operation getValue(String variable)
+	{
+		for(Variable v : Parser.variables)
+			if(v.toString().equals(variable))
+				return v.expression;
+		return null;
+	}
+	
+	private static boolean isVariable(String input)
+	{
+		for(Variable v : Parser.variables)
+			if(v.toString().equals(input))
+				return true;
+		return false;
+	}
+
 	private static String preProcess(String e)
 	{
-		StringBuilder input = new StringBuilder(e.replaceAll("\\s","").replaceAll("pi", "\u03C0"));
+		StringBuilder input = new StringBuilder(e.replaceAll("\\s",""));
 		String output = input.toString();
 		//add implicit multiplication signs where needed
-		for(int i=0;i<output.length()-1;i++)
-		{
-			if((Character.isDigit(output.charAt(i)) || endsWithVariable(output.substring(0, i+1))) && (startsWithUnaryOperator(output.substring(i+1)) || output.charAt(i+1) == '(' || startsWithVariable(output.substring(i+1)))
-					|| ((output.charAt(i) == ')') && (startsWithUnaryOperator(output.substring(i+1)) || startsWithVariable(output.substring(i+1)))))
-				output = input.insert(i+1, '*').toString();
-		}
+//		for(int i=0;i<output.length()-1;i++)
+//		{
+//			if((Character.isDigit(output.charAt(i)) || endsWithVariable(output.substring(0, i+1))) && (startsWithUnaryOperator(output.substring(i+1)) || output.charAt(i+1) == '(' || startsWithVariable(output.substring(i+1)))
+//					|| ((output.charAt(i) == ')') && (startsWithUnaryOperator(output.substring(i+1)) || startsWithVariable(output.substring(i+1)))))
+//				output = input.insert(i+1, '*').toString();
+//		}
 		return output;
 	}
 
@@ -76,83 +94,66 @@ public class Parser
 		}
 	}
 
-	private static boolean containsInfixBinaryOperator(String input)
+	public static int[] containsInfixBinaryOperator(String input)
 	{
-		for(BinaryOperator b : BinaryOperator.values())
+		int[] output = {0, 0, 0};
+		for(int i = 0; i<BinaryOperator.values().length;i++)
 		{
-			if(b.isPrefix())//ignore prefix operator in BinaryOperator.values()
+			if(input.contains(BinaryOperator.values()[i].toString()))
+			{
+				for(int j : indicesOf(input, BinaryOperator.values()[i].toString()))
+					if(validIndex(input, j))
+					{
+						output[0] = 1;
+						output[1] = j;
+						output[2] = i;
+						return output;
+					}
+			}
+		}
+		return output;
+	}
+
+	private static int[] startsWithUnaryOperator(String input)
+	{
+		int[] output = {0,0};
+		for(int i = 0;i<UnaryOperator.values().length;i++)
+			if(UnaryOperator.values()[i] != UnaryOperator.FACTORIAL && UnaryOperator.values()[i] != UnaryOperator.NEGATE 
+			&& input.startsWith(UnaryOperator.values()[i].toString()))
+			{
+				output[0] = 1;
+				output[1] = i;
 				break;
-			if(input.contains(b.toString()) && input.indexOf(b.toString()) > 0)
-				return true;
-		}
-		return false;
+			}
+		return output;
 	}
 
-	private static boolean startsWithPrefixBinaryOperator(String input)
-	{
-		for(BinaryOperator b : BinaryOperator.prefixValues())
-			if(input.startsWith(b.toString()))
-				return true;
-		return false;
-	}
+//	private static boolean endsWithPrefixBinaryOperator(String input)
+//	{
+//		for(BinaryOperator b : BinaryOperator.prefixValues())
+//			if(input.endsWith(b.toString()))
+//				return true;
+//		return false;
+//	}
 
-	private static boolean startsWithBinaryOperator(String input)
-	{
-		for(BinaryOperator b : BinaryOperator.values())
-			if(input.startsWith(b.toString()))
-				return true;
-		return false;
-	}
+//	private static boolean endsWithUnaryOperator(String input)
+//	{
+//		for(UnaryOperator u : UnaryOperator.values())
+//			if(input.endsWith(u.toString()))
+//				return true;
+//		return false;
+//	}
 
-	private static boolean startsWithVariable(String e)
-	{
-		if(!(startsWithUnaryOperator(e)) && !(startsWithPrefixBinaryOperator(e)))
-		{
-			if( e.startsWith("e") || e.startsWith("\u03C0"))
-				return true;
-			else for(Variable v : Parser.variables)
-				if(e.startsWith(v.toString()))
-					return true;
-		}
-		return false;
-	}
-
-	private static boolean startsWithUnaryOperator(String input)
-	{
-		for(UnaryOperator u : UnaryOperator.values())
-			if(u != UnaryOperator.FACTORIAL && u!= UnaryOperator.NEGATE && input.startsWith(u.toString()))
-				return true;
-		return false;
-	}
-
-	private static boolean endsWithPrefixBinaryOperator(String input)
-	{
-		for(BinaryOperator b : BinaryOperator.prefixValues())
-			if(input.endsWith(b.toString()))
-				return true;
-		return false;
-	}
-
-	private static boolean endsWithUnaryOperator(String input)
-	{
-		for(UnaryOperator u : UnaryOperator.values())
-			if(input.endsWith(u.toString()))
-				return true;
-		return false;
-	}
-
-	private static boolean endsWithVariable(String e)
-	{
-		if(!(endsWithUnaryOperator(e)) && !(endsWithPrefixBinaryOperator(e)))
-		{
-			if( e.endsWith("e") || e.endsWith("\u03C0"))
-				return true;
-			else for(Variable v : Parser.variables)
-				if(e.endsWith(v.toString()))
-					return true;
-		}
-		return false;
-	}
+//	private static boolean endsWithVariable(String e)
+//	{
+//		if(!(endsWithUnaryOperator(e)) && !(endsWithPrefixBinaryOperator(e)))
+//		{
+//			for(Variable v : Parser.variables)
+//				if(e.endsWith(v.toString()))
+//					return true;
+//		}
+//		return false;
+//	}
 
 	private static int matchIndex(int index, String input)//index has to be index of an open parenthesis '('
 	{
@@ -184,5 +185,29 @@ public class Parser
 					return i;
 			}
 		return -1;
+	}
+	
+	public static boolean validIndex(String input, int index)
+	{
+		if(index == -1 || index == 0)
+			return false;
+		int checker = 0;
+		for(int i = 0;i<=index;i++)
+		{
+			if(input.charAt(i) == '(')
+				checker++;
+			if(input.charAt(i) == ')')
+				checker--;
+		}
+		return (checker == 0);
+	}
+	
+	public static ArrayList<Integer> indicesOf(String input, String match)
+	{
+		ArrayList<Integer> output = new ArrayList<Integer>();
+		for(int i = 0;i<input.length();i++)
+			if(input.substring(i).startsWith(match))
+				output.add(i);
+		return output;
 	}
 }

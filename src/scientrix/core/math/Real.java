@@ -43,9 +43,9 @@ public class Real implements Operation, Value, Comparable<Real>
 		this(integer.toString());
 	}
 
-	public Real(int real)
+	public Real(int integer)
 	{
-		this(real+"");
+		this(integer+"");
 	}
 
 	public Value evaluate()

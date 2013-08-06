@@ -15,6 +15,12 @@ public class Variable implements Operation
 		this.name = name;
 	}
 	
+	public Variable(String name, Operation expression)
+	{
+		this.name = name;
+		this.expression = expression;
+	}
+	
 	public String toString()
 	{
 		return this.name;

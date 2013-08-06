@@ -25,15 +25,4 @@ public enum BinaryOperator
 	{
 		return this.operator;
 	}
-
-	public boolean isPrefix()
-	{
-		return (this.equals(BinaryOperator.MAX) || this.equals(BinaryOperator.MIN) || this.equals(BinaryOperator.LCM) || this.equals(BinaryOperator.GCD));
-	}
-
-	public static BinaryOperator[] prefixValues()
-	{
-		BinaryOperator[] output = {BinaryOperator.MAX, BinaryOperator.MIN, BinaryOperator.LCM, BinaryOperator.GCD};
-		return output;
-	}
 }
