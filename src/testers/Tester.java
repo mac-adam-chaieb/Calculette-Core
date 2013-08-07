@@ -7,7 +7,7 @@ public class Tester
 {
 	public static void main(String[] args)
 	{
-		String e = "2max3max7*6lcm9";
+		String e = "9+-9";
 		long t = System.currentTimeMillis();
 		Operation o = Parser.makeOperation(e);
 		System.out.println("Time to construct expression in milliseconds: "+(System.currentTimeMillis()-t));

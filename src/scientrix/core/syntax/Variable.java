@@ -1,6 +1,4 @@
 package scientrix.core.syntax;
-
-
 /*
  * @author Mohamed Adam Chaieb
  * 

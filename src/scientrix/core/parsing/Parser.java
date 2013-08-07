@@ -118,8 +118,7 @@ public class Parser
 	{
 		int[] output = {0,0};
 		for(int i = 0;i<UnaryOperator.values().length;i++)
-			if(UnaryOperator.values()[i] != UnaryOperator.FACTORIAL && UnaryOperator.values()[i] != UnaryOperator.NEGATE 
-			&& input.startsWith(UnaryOperator.values()[i].toString()))
+			if(UnaryOperator.values()[i] != UnaryOperator.FACTORIAL && input.startsWith(UnaryOperator.values()[i].toString()))
 			{
 				output[0] = 1;
 				output[1] = i;

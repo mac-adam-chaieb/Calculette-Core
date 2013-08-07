@@ -224,6 +224,8 @@ public class Real implements Operation, Value, Comparable<Real>
 
 	public Real len()
 	{
+		if(this.compareTo(Real.ONE) < 1)
+			return new Real(this.toString().length()-1);
 		return new Real(this.toString().length());
 	}
 

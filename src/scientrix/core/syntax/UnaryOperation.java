@@ -1,5 +1,6 @@
 package scientrix.core.syntax;
 
+import scientrix.core.math.Matrix;
 import scientrix.core.math.Real;
 
 public class UnaryOperation implements Operation 
@@ -19,7 +20,7 @@ public class UnaryOperation implements Operation
 		if((this.o1 instanceof Real))
 		{
 			Real real = (Real)this.o1;
-			if(this.operator.equals(UnaryOperator.LEN))
+			if(this.operator.equals(UnaryOperator.LENGTH))
 				return real.len();
 			if(this.operator.equals(UnaryOperator.FACTORIAL))
 				return real.factorial();
@@ -33,6 +34,18 @@ public class UnaryOperation implements Operation
 				return real.negate();
 			if(this.operator.equals(UnaryOperator.IDENTITY))
 				return real;
+		}
+		else if(this.o1 instanceof Matrix)
+		{
+			Matrix matrix = (Matrix)this.o1;
+			if(this.operator.equals(UnaryOperator.DETERMINANT))
+				return matrix.determinant();
+			if(this.operator.equals(UnaryOperator.TRANSPOSE))
+				return matrix.transpose();
+			if(this.operator.equals(UnaryOperator.ADJOINT))
+				return matrix.adjoint();
+			if(this.operator.equals(UnaryOperator.COFACTORS))
+				return matrix.cofactorsMatrix();
 		}
 		return new UnaryOperation((Operation)o1.evaluate(), this.operator).evaluate();
 	}
