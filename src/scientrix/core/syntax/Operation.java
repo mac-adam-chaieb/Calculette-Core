@@ -1,5 +1,8 @@
 package scientrix.core.syntax;
 
+import scientrix.core.error.ArgumentError;
+import scientrix.core.error.OutOfRangeError;
+
 
 /*
  * @author Mohamed Adam Chaieb
@@ -10,11 +13,8 @@ package scientrix.core.syntax;
 public interface Operation 
 {
 	//evaluates the Expression
-	public Value evaluate();
-	
-	//substitutes any occurrence of x with number
-	public Operation substitute(Variable x, Operation operation);
+	public Value evaluate() throws ArgumentError, OutOfRangeError;
 	
 	//returns the number of operations performed by the operation
-	public int length();
+	public int operationLength();
 }

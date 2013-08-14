@@ -1,5 +1,7 @@
 package scientrix.core.syntax;
 
+import scientrix.core.error.ArgumentError;
+import scientrix.core.error.OutOfRangeError;
 import scientrix.core.math.Matrix;
 import scientrix.core.math.Real;
 
@@ -15,13 +17,13 @@ public class UnaryOperation implements Operation
 	}
 
 	@Override
-	public Value evaluate() 
+	public Value evaluate() throws ArgumentError, OutOfRangeError
 	{
 		if((this.o1 instanceof Real))
 		{
 			Real real = (Real)this.o1;
 			if(this.operator.equals(UnaryOperator.LENGTH))
-				return real.len();
+				return real.length();
 			if(this.operator.equals(UnaryOperator.FACTORIAL))
 				return real.factorial();
 			if(this.operator.equals(UnaryOperator.SINE))
@@ -33,7 +35,31 @@ public class UnaryOperation implements Operation
 			if(this.operator.equals(UnaryOperator.NEGATE))
 				return real.negate();
 			if(this.operator.equals(UnaryOperator.IDENTITY))
-				return real;
+				return real.identity();
+			if(this.operator.equals(UnaryOperator.LN))
+				return real.naturalLogarithm();
+			if(this.operator.equals(UnaryOperator.LOG))
+				return real.decimalLogarithm();
+			if(this.operator.equals(UnaryOperator.ABSOLUTE))
+				return real.absoluteValue();
+			if(this.operator.equals(UnaryOperator.FLOOR))
+				return real.floor();
+			if(this.operator.equals(UnaryOperator.CEILING))
+				return real.ceiling();
+			if(this.operator.equals(UnaryOperator.SIGNUM))
+				return real.signum();
+			if(this.operator.equals(UnaryOperator.SQROOT1) || this.operator.equals(UnaryOperator.SQROOT2))
+				return real.squareRoot();
+			if(this.operator.equals(UnaryOperator.BINARYLOG))
+				return real.binaryLogarithm();
+			if(this.operator.equals(UnaryOperator.ARCCOS))
+				return real.arccos();
+			if(this.operator.equals(UnaryOperator.ARCSIN))
+				return real.arcsin();
+			if(this.operator.equals(UnaryOperator.ARCTAN))
+				return real.arctan();
+			if(this.operator.equals(UnaryOperator.INVERSE))
+				return real.inverse();
 		}
 		else if(this.o1 instanceof Matrix)
 		{
@@ -46,19 +72,15 @@ public class UnaryOperation implements Operation
 				return matrix.adjoint();
 			if(this.operator.equals(UnaryOperator.COFACTORS))
 				return matrix.cofactorsMatrix();
+			if(this.operator.equals(UnaryOperator.INVERSE))
+				return matrix.inverse();
 		}
 		return new UnaryOperation((Operation)o1.evaluate(), this.operator).evaluate();
 	}
 
-	@Override
-	public Operation substitute(Variable x, Operation operation)
+	public int operationLength()
 	{
-		return new UnaryOperation(this.o1.substitute(x, operation), this.operator);
-	}
-
-	public int length()
-	{
-		return 1+o1.length();
+		return 1+o1.operationLength();
 	}
 
 	public String toString()

@@ -1,8 +1,8 @@
 package scientrix.core.parsing;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
+import scientrix.core.error.SyntaxError;
 import scientrix.core.math.Real;
 import scientrix.core.syntax.BinaryOperation;
 import scientrix.core.syntax.BinaryOperator;
@@ -16,16 +16,15 @@ public class Parser
 {
 	public static ArrayList<Variable> variables = new ArrayList<Variable>();
 
-	public static Operation makeOperation(String input)
+	public static Operation makeOperation(String input) throws SyntaxError
 	{
 		String e = preProcess(input);
 
 		loadVariables();
-		System.out.println(e);
 		if(isNumber(e))
 			return new Real(e);
 		else if(isVariable(e))
-			return getValue(e);
+			return getVariable(e);
 		else if(containsInfixBinaryOperator(e)[0] == 1)
 		{
 			BinaryOperator b = BinaryOperator.values()[containsInfixBinaryOperator(e)[2]];
@@ -40,7 +39,7 @@ public class Parser
 			return new UnaryOperation(makeOperation(e.substring(0,e.length()-1)), UnaryOperator.FACTORIAL);
 		else if(e.startsWith("(") && e.endsWith(")"))
 			return makeOperation(e.substring(1, e.length()-1));
-		return null;
+		throw new SyntaxError("Malformed expression "+e);
 	}
 
 	//helper functions -----------------------------------------------------------------------------------------
@@ -51,11 +50,11 @@ public class Parser
 		Parser.variables.add(new Variable("pi", Real.PI));
 	}
 	
-	public static Operation getValue(String variable)
+	public static Operation getVariable(String variable)
 	{
 		for(Variable v : Parser.variables)
 			if(v.toString().equals(variable))
-				return v.expression;
+				return v;
 		return null;
 	}
 	
@@ -153,38 +152,6 @@ public class Parser
 //		}
 //		return false;
 //	}
-
-	private static int matchIndex(int index, String input)//index has to be index of an open parenthesis '('
-	{
-		int checker = 0;
-		for(int i = index;i<input.length();i++)
-		{
-			if(input.charAt(i) == '(')
-				checker++;
-			if(input.charAt(i) == ')')
-				checker--;
-			if(checker == 0)
-				return i;
-		}
-		return index;
-	}
-
-	private static int commaIndex(String input)
-	{
-		int occurrences = 0;
-		int counter = 0;
-		for(int i=0;i<input.length();i++)
-			if(input.charAt(i) == ',')
-				occurrences++;
-		for(int i=0;i<input.length();i++)
-			if(input.charAt(i) == ',')
-			{
-				counter++;
-				if(counter == (int)Math.ceil(occurrences/2.0))
-					return i;
-			}
-		return -1;
-	}
 	
 	public static boolean validIndex(String input, int index)
 	{

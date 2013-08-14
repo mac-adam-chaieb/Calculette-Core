@@ -4,26 +4,32 @@ Most of the structure is inspired by the Jam Programming Language, and Scientrix
 
 Operations that are supported (or will be supported in the future):
 
-- +   Addition
-- -   Subtraction
+- +   Addition / Identity
+- -   Subtraction / Negation
 - *   Multiplication
 - /   Division
 - mod Remainder
 - ^   Power
+- sqrt Square Root
+- inv Inverse
 - abs Absolute Value
-- log Logarithm base 10
+- log Decimal lograrithm
 - ln  Natural logarithm
+- lb Binary Logarithm
 - cos Cosine
 - sin Sine
 - tan Tangent
-- arcos
-- arcsin
-- arctan
+- arcos Inverse cosine
+- arcsin Inverse sine
+- arctan Inverse tangent
 - len Number of digits
 - max Maximum
 - min Minimum
+- floor Round down
+- ceil Round up
+- sig Signum
 - gcd Greatest Common Divisor
-- LCM Least Common Multiple
+- lcm Least Common Multiple
 - ! Factorial
 - P Permutations
 - C Combinations

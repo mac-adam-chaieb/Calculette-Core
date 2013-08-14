@@ -1,14 +1,16 @@
 package scientrix.core.math;
 
+import scientrix.core.error.ArgumentError;
+import scientrix.core.syntax.Operation;
 import scientrix.core.syntax.Value;
 
-public class Matrix implements Value
+public class Matrix implements Value, Operation
 {
   private int r;//rows
   private int c;//columns
   private Real[][] matrix;
   
-  public Matrix(int r,int c)//creates a Matrix object with null values, with the specified dimensions
+  public Matrix(int r, int c)//creates a Matrix object with null values, with the specified dimensions
   {
     this.matrix = new Real[r][c];
     this.r = r;
@@ -25,6 +27,11 @@ public class Matrix implements Value
   public Value evaluate()
   {
 	  return this;
+  }
+  
+  public int operationLength()
+  {
+	  return 0;
   }
   
   public Matrix add(Matrix m)//computes the sum of this Matrix and the input matrix
@@ -69,7 +76,8 @@ public class Matrix implements Value
       return null;
   }
   
-  public Matrix power(int p)//computes the matrix raised to the power p
+//computes the matrix raised to the power p
+  public Matrix power(int p) throws ArgumentError
   {
     if(p == 1)
       return this;
@@ -88,11 +96,12 @@ public class Matrix implements Value
     }
   }
   
-  public Matrix inverse()//computes the inverse of the matrix using the formula inverse = (1/determinant) times adjoint
+//computes the inverse of the matrix using the formula inverse = (1/determinant) times adjoint
+  public Matrix inverse() throws ArgumentError
   {
     if(this.isInvertible())
     {
-    	return this.adjoint().multiplyByScalar(Real.ONE.divide(this.determinant()));
+    	return this.adjoint().multiplyByScalar(this.determinant().inverse());
     }
     else return null;
   }

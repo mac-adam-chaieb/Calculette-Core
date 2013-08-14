@@ -1,5 +1,7 @@
 package scientrix.core.syntax;
 
+import scientrix.core.error.ArgumentError;
+import scientrix.core.error.OutOfRangeError;
 import scientrix.core.math.Real;
 
 /*
@@ -21,7 +23,7 @@ public class BinaryOperation implements Operation
 	}
 
 	@Override
-	public Value evaluate() 
+	public Value evaluate() throws ArgumentError, OutOfRangeError
 	{
 		if((this.o1 instanceof Real) && (this.o2 instanceof Real))
 		{
@@ -36,7 +38,7 @@ public class BinaryOperation implements Operation
 			if(this.operator.equals(BinaryOperator.DIVIDE))
 				return real1.divide(real2);
 			if(this.operator.equals(BinaryOperator.MOD))
-				return real1.mod(real2);
+				return real1.modulus(real2);
 			if(this.operator.equals(BinaryOperator.POW))
 				return real1.pow(real2);
 			if(this.operator.equals(BinaryOperator.MIN))
@@ -44,9 +46,9 @@ public class BinaryOperation implements Operation
 			if(this.operator.equals(BinaryOperator.MAX))
 				return real1.max(real2);
 			if(this.operator.equals(BinaryOperator.GCD))
-				return real1.gcd(real2);
+				return real1.greatestCommonDivisor(real2);
 			if(this.operator.equals(BinaryOperator.LCM))
-				return real1.lcm(real2);
+				return real1.leastCommonMultiple(real2);
 			if(this.operator.equals(BinaryOperator.PERMUTATION))
 				return real1.permutations(real2);
 			if(this.operator.equals(BinaryOperator.COMBINATION))
@@ -55,15 +57,9 @@ public class BinaryOperation implements Operation
 		return (new BinaryOperation((Operation)this.o1.evaluate(), this.operator, (Operation)this.o2.evaluate() )).evaluate();
 	}
 
-	@Override
-	public Operation substitute(Variable x, Operation operation) 
+	public int operationLength()
 	{
-		return new BinaryOperation(this.o1.substitute(x, operation), this.operator, this.o2.substitute(x, operation));
-	}
-
-	public int length()
-	{
-		return 1+o1.length()+o2.length();
+		return 1+o1.operationLength()+o2.operationLength();
 	}
 
 	public String toString()

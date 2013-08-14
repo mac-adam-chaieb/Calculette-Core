@@ -1,9 +1,13 @@
 package scientrix.core.syntax;
+
+import scientrix.core.error.ArgumentError;
+import scientrix.core.error.OutOfRangeError;
+
 /*
  * @author Mohamed Adam Chaieb
  * 
  * This class represents variables in scientrix expressions.*/
-public class Variable implements Operation
+public class Variable implements Operation, Value
 {
 	public String name;
 	public Operation expression;
@@ -24,12 +28,12 @@ public class Variable implements Operation
 		return this.name;
 	}
 	
-	public Value evaluate()
+	public Value evaluate() throws ArgumentError, OutOfRangeError
 	{
 		return this.expression.evaluate();
 	}
 	
-	public int length()
+	public int operationLength()
 	{
 		return 0;
 	}
