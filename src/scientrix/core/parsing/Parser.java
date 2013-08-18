@@ -3,18 +3,13 @@ package scientrix.core.parsing;
 import java.util.ArrayList;
 
 import scientrix.core.error.SyntaxError;
-import scientrix.core.math.Real;
-import scientrix.core.syntax.BinaryOperation;
-import scientrix.core.syntax.BinaryOperator;
-import scientrix.core.syntax.Operation;
-import scientrix.core.syntax.UnaryOperation;
-import scientrix.core.syntax.UnaryOperator;
-import scientrix.core.syntax.Variable;
+import scientrix.core.math.*;
+import scientrix.core.syntax.*;
 
 
 public class Parser 
 {
-	public static ArrayList<Variable> variables = new ArrayList<Variable>();
+	private static ArrayList<Variable> variables = new ArrayList<Variable>();
 
 	public static Operation makeOperation(String input) throws SyntaxError
 	{
@@ -43,14 +38,14 @@ public class Parser
 	}
 
 	//helper functions -----------------------------------------------------------------------------------------
-	public static void loadVariables()
+	private static void loadVariables()
 	{
 		Parser.variables.add(new Variable("e", Real.E));
 		Parser.variables.add(new Variable("\u03C0", Real.PI));
 		Parser.variables.add(new Variable("pi", Real.PI));
 	}
 	
-	public static Operation getVariable(String variable)
+	private static Operation getVariable(String variable)
 	{
 		for(Variable v : Parser.variables)
 			if(v.toString().equals(variable))
@@ -93,7 +88,7 @@ public class Parser
 		}
 	}
 
-	public static int[] containsInfixBinaryOperator(String input)
+	private static int[] containsInfixBinaryOperator(String input)
 	{
 		int[] output = {0, 0, 0};
 		for(int i = 0; i<BinaryOperator.values().length;i++)
@@ -153,7 +148,7 @@ public class Parser
 //		return false;
 //	}
 	
-	public static boolean validIndex(String input, int index)
+	private static boolean validIndex(String input, int index)
 	{
 		if(index == -1 || index == 0)
 			return false;
@@ -168,7 +163,17 @@ public class Parser
 		return (checker == 0);
 	}
 	
-	public static ArrayList<Integer> indicesOf(String input, String match)
+//	public static boolean isReal(String input)
+//	{
+//		try
+//		{
+//			Double.parseDouble(input);
+//			return true;
+//		}
+//		catch(Exception e){return false;}
+//	}
+	
+	private static ArrayList<Integer> indicesOf(String input, String match)
 	{
 		ArrayList<Integer> output = new ArrayList<Integer>();
 		for(int i = 0;i<input.length();i++)

@@ -1,4 +1,4 @@
-package testers;
+package scientrix.testing;
 
 import java.util.HashMap;
 
@@ -7,7 +7,7 @@ import scientrix.core.error.OutOfRangeError;
 import scientrix.core.error.SyntaxError;
 import scientrix.core.math.Real;
 import scientrix.core.parsing.Parser;
-import scientrix.core.syntax.Operation;
+//import scientrix.core.syntax.Operation;
 
 public class Tester 
 {

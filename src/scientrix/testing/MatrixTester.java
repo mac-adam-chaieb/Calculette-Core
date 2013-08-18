@@ -1,4 +1,4 @@
-package testers;
+package scientrix.testing;
 
 public class MatrixTester
 {

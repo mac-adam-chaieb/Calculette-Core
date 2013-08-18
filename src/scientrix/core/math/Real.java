@@ -244,16 +244,6 @@ public class Real implements Operation, Value, Comparable<Real>, Cloneable
 		return new Real(Math.log10(this.real));
 	}
 
-	public static boolean isReal(String input)
-	{
-		try
-		{
-			Double.parseDouble(input);
-			return true;
-		}
-		catch(Exception e){return false;}
-	}
-
 	public boolean greaterThan(Real b)
 	{
 		return (this.real > b.real);
