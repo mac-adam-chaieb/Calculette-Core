@@ -1,8 +1,8 @@
-package scientrix.core.math;
+package calculette.core.math;
 
-import scientrix.core.error.ArgumentError;
-import scientrix.core.syntax.Operation;
-import scientrix.core.syntax.Value;
+import calculette.core.error.ArgumentError;
+import calculette.core.syntax.Operation;
+import calculette.core.syntax.Value;
 
 public class Matrix implements Value, Operation
 {

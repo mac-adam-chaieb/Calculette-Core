@@ -1,4 +1,4 @@
-package scientrix.core.error;
+package calculette.core.error;
 
 public class OutOfRangeError extends Exception 
 {

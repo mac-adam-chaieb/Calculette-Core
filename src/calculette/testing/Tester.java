@@ -1,13 +1,13 @@
-package scientrix.testing;
+package calculette.testing;
 
 import java.util.HashMap;
 
-import scientrix.core.error.ArgumentError;
-import scientrix.core.error.OutOfRangeError;
-import scientrix.core.error.SyntaxError;
-import scientrix.core.math.Real;
-import scientrix.core.parsing.Parser;
-//import scientrix.core.syntax.Operation;
+import calculette.core.error.ArgumentError;
+import calculette.core.error.OutOfRangeError;
+import calculette.core.error.SyntaxError;
+import calculette.core.math.Real;
+import calculette.core.parsing.Parser;
+
 
 public class Tester 
 {

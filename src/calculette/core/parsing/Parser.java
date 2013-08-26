@@ -1,10 +1,11 @@
-package scientrix.core.parsing;
+package calculette.core.parsing;
 
 import java.util.ArrayList;
 
-import scientrix.core.error.SyntaxError;
-import scientrix.core.math.*;
-import scientrix.core.syntax.*;
+import calculette.core.error.SyntaxError;
+import calculette.core.math.*;
+import calculette.core.syntax.*;
+
 
 
 public class Parser 

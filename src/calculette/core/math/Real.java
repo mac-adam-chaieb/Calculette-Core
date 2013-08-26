@@ -1,12 +1,13 @@
-package scientrix.core.math;
+package calculette.core.math;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import scientrix.core.error.ArgumentError;
-import scientrix.core.syntax.Operation;
-import scientrix.core.syntax.Value;
-import scientrix.core.syntax.Variable;
+import calculette.core.error.ArgumentError;
+import calculette.core.syntax.Operation;
+import calculette.core.syntax.Value;
+import calculette.core.syntax.Variable;
+
 
 /*
  * @author Mohamed Adam Chaieb

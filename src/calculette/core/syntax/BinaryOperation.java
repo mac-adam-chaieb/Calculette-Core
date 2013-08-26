@@ -1,8 +1,8 @@
-package scientrix.core.syntax;
+package calculette.core.syntax;
 
-import scientrix.core.error.ArgumentError;
-import scientrix.core.error.OutOfRangeError;
-import scientrix.core.math.Real;
+import calculette.core.error.ArgumentError;
+import calculette.core.error.OutOfRangeError;
+import calculette.core.math.Real;
 
 /*
  * @author Mohamed Adam Chaieb

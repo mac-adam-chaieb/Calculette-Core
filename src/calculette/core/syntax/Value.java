@@ -1,4 +1,4 @@
-package scientrix.core.syntax;
+package calculette.core.syntax;
 /*
  * @author Mohamed Adam Chaieb
  * 
