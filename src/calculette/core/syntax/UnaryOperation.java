@@ -7,21 +7,21 @@ import calculette.core.math.Real;
 
 public class UnaryOperation implements Operation 
 {
-	public Operation o1;
-	public UnaryOperator operator;
+	private Operation operand;
+	private UnaryOperator operator;
 
-	public UnaryOperation(Operation o1, UnaryOperator operator)
+	public UnaryOperation(Operation operand, UnaryOperator operator)
 	{
-		this.o1 = o1;
+		this.operand = operand;
 		this.operator = operator;
 	}
 
 	@Override
 	public Value evaluate() throws ArgumentError, OutOfRangeError
 	{
-		if((this.o1 instanceof Real))
+		if((this.operand instanceof Real))
 		{
-			Real real = (Real)this.o1;
+			Real real = (Real)this.operand;
 			if(this.operator.equals(UnaryOperator.LENGTH))
 				return real.length();
 			if(this.operator.equals(UnaryOperator.FACTORIAL))
@@ -61,9 +61,9 @@ public class UnaryOperation implements Operation
 			if(this.operator.equals(UnaryOperator.INVERSE))
 				return real.inverse();
 		}
-		else if(this.o1 instanceof Matrix)
+		else if(this.operand instanceof Matrix)
 		{
-			Matrix matrix = (Matrix)this.o1;
+			Matrix matrix = (Matrix)this.operand;
 			if(this.operator.equals(UnaryOperator.DETERMINANT))
 				return matrix.determinant();
 			if(this.operator.equals(UnaryOperator.TRANSPOSE))
@@ -75,18 +75,34 @@ public class UnaryOperation implements Operation
 			if(this.operator.equals(UnaryOperator.INVERSE))
 				return matrix.inverse();
 		}
-		return new UnaryOperation((Operation)o1.evaluate(), this.operator).evaluate();
+		return new UnaryOperation((Operation)operand.evaluate(), this.operator).evaluate();
 	}
 
 	public int operationLength()
 	{
-		return 1+o1.operationLength();
+		return 1+operand.operationLength();
 	}
 
 	public String toString()
 	{
 		if(this.operator.equals(UnaryOperator.FACTORIAL))
-			return "("+this.o1.toString()+")!";
-		else return this.operator.toString()+"("+this.o1.toString()+")";
+			return "("+this.operand.toString()+")!";
+		else return this.operator.toString()+"("+this.operand.toString()+")";
+	}
+	
+	public Operation getOperand() {
+		return operand;
+	}
+
+	public void setOperand(Operation operand) {
+		this.operand = operand;
+	}
+
+	public UnaryOperator getOperator() {
+		return operator;
+	}
+
+	public void setOperator(UnaryOperator operator) {
+		this.operator = operator;
 	}
 }

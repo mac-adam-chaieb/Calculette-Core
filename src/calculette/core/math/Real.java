@@ -17,9 +17,10 @@ import calculette.core.syntax.Variable;
 
 public class Real implements Operation, Value, Comparable<Real>, Cloneable
 {
-	public final double real;
-	public String decimalPart;
-	public String integerPart;
+	private final double real;
+
+	private String decimalPart;
+	private String integerPart;
 	public static final Real TEN = new Real(10);
 	public static final Real TWO = new Real(2);
 	public static final Real ONE = new Real(1);
@@ -73,35 +74,35 @@ public class Real implements Operation, Value, Comparable<Real>, Cloneable
 
 	public boolean equals(Real b)
 	{
-		return (this.real == b.real);
+		return (this.real == b.toDouble());
 	}
 
 	//math functions
 	public Real add(Real b)
 	{
-		return new Real(this.real + b.real);
+		return new Real(this.real + b.toDouble());
 	}
 
 	public Real multiply(Real b)
 	{
-		return new Real(this.real * b.real);
+		return new Real(this.real * b.toDouble());
 	}
 
 	public Real subtract(Real b)
 	{
-		return new Real(this.real - b.real);
+		return new Real(this.real - b.toDouble());
 	}
 
 	public Real divide(Real b) throws ArgumentError
 	{
 		if(b.equals(Real.ZERO))
 			throw new ArgumentError("Cannot divide by zero");
-		return new Real(this.real / b.real);
+		return new Real(this.real / b.toDouble());
 	}
 
 	public Real modulus(Real b)
 	{
-		return new Real(this.real % b.real);
+		return new Real(this.real % b.toDouble());
 	}
 
 	public Real negate()
@@ -146,12 +147,12 @@ public class Real implements Operation, Value, Comparable<Real>, Cloneable
 
 	public Real max(Real b)
 	{
-		return new Real(Math.max(this.real, b.real));
+		return new Real(Math.max(this.real, b.toDouble()));
 	}
 
 	public Real min(Real b)
 	{
-		return new Real(Math.min(this.real, b.real));
+		return new Real(Math.min(this.real, b.toDouble()));
 	}
 
 	public Real greatestCommonDivisor(Real b) throws ArgumentError
@@ -179,7 +180,7 @@ public class Real implements Operation, Value, Comparable<Real>, Cloneable
 
 	public Real pow(Real x)
 	{
-		return new Real(Math.pow(this.real, x.real));	
+		return new Real(Math.pow(this.real, x.toDouble()));	
 	}
 
 	public Real squareRoot() throws ArgumentError
@@ -247,12 +248,12 @@ public class Real implements Operation, Value, Comparable<Real>, Cloneable
 
 	public boolean greaterThan(Real b)
 	{
-		return (this.real > b.real);
+		return (this.real > b.toDouble());
 	}
 
 	public boolean lessThan(Real b)
 	{
-		return (this.real < b.real);
+		return (this.real < b.toDouble());
 	}
 
 	public int compareTo(Real other)
@@ -346,5 +347,22 @@ public class Real implements Operation, Value, Comparable<Real>, Cloneable
 	public Real floor()
 	{
 		return new Real(Math.floor(this.real));
+	}
+	
+	//getters and setters
+	public String getDecimalPart() {
+		return decimalPart;
+	}
+
+	public void setDecimalPart(String decimalPart) {
+		this.decimalPart = decimalPart;
+	}
+
+	public String getIntegerPart() {
+		return integerPart;
+	}
+
+	public void setIntegerPart(String integerPart) {
+		this.integerPart = integerPart;
 	}
 }

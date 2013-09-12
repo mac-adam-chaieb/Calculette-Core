@@ -9,9 +9,9 @@ import calculette.core.error.OutOfRangeError;
  * This class represents variables in scientrix expressions.*/
 public class Variable implements Operation, Value
 {
-	public String name;
-	public Operation expression;
-	
+	private String name;
+	private Operation expression;
+
 	public Variable(String name)
 	{
 		this.name = name;
@@ -49,4 +49,21 @@ public class Variable implements Operation, Value
 	{
 		return this.name.equals(other.name);
 	}
+	
+	public Operation getExpression() {
+		return expression;
+	}
+
+	public void setExpression(Operation expression) {
+		this.expression = expression;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 }

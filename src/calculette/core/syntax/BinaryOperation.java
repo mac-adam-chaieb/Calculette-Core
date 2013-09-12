@@ -11,24 +11,24 @@ import calculette.core.math.Real;
  * */
 public class BinaryOperation implements Operation 
 {
-	public Operation o1;
-	public Operation o2;
-	public BinaryOperator operator;
+	private Operation left;
+	private Operation right;
+	private BinaryOperator operator;
 
-	public BinaryOperation(Operation o1, BinaryOperator operator, Operation o2)
+	public BinaryOperation(Operation left, BinaryOperator operator, Operation right)
 	{
-		this.o1 = o1;
-		this.o2 = o2;
+		this.left = left;
+		this.right = right;
 		this.operator = operator;
 	}
 
 	@Override
 	public Value evaluate() throws ArgumentError, OutOfRangeError
 	{
-		if((this.o1 instanceof Real) && (this.o2 instanceof Real))
+		if((this.left instanceof Real) && (this.right instanceof Real))
 		{
-			Real real1 = (Real)this.o1;
-			Real real2 = (Real)this.o2;
+			Real real1 = (Real)this.left;
+			Real real2 = (Real)this.right;
 			if(this.operator.equals(BinaryOperator.PLUS))
 				return real1.add(real2);
 			if(this.operator.equals(BinaryOperator.MINUS))
@@ -54,16 +54,40 @@ public class BinaryOperation implements Operation
 			if(this.operator.equals(BinaryOperator.COMBINATION))
 				return real1.combinations(real2);
 		}
-		return (new BinaryOperation((Operation)this.o1.evaluate(), this.operator, (Operation)this.o2.evaluate() )).evaluate();
+		return (new BinaryOperation((Operation)this.left.evaluate(), this.operator, (Operation)this.right.evaluate() )).evaluate();
 	}
 
 	public int operationLength()
 	{
-		return 1+o1.operationLength()+o2.operationLength();
+		return 1+left.operationLength()+right.operationLength();
 	}
 
 	public String toString()
 	{
-		return "("+this.o1.toString()+") "+this.operator.toString()+" ("+this.o2.toString()+")";
+		return "("+this.left.toString()+") "+this.operator.toString()+" ("+this.right.toString()+")";
+	}
+	
+	public Operation getLeft() {
+		return left;
+	}
+
+	public void setLeft(Operation left) {
+		this.left = left;
+	}
+
+	public Operation getRight() {
+		return right;
+	}
+
+	public void setRight(Operation right) {
+		this.right = right;
+	}
+
+	public BinaryOperator getOperator() {
+		return operator;
+	}
+
+	public void setOperator(BinaryOperator operator) {
+		this.operator = operator;
 	}
 }
